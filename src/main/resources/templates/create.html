@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Contact</title>
+    <link rel="stylesheet" th:href="@{'/assets/css/app.css'}">
+</head>
+<body>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card card-body my-3">
+
+                <h4>
+                    Create Contact
+                </h4>
+
+                <form th:action="@{/contacts/save}" th:object="${contactForm}" method="post">
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full name</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger small"
+                             th:text="${#fields.errors('name').get(0)}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" th:field="*{phone}" id="phone">
+                        <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger small"
+                             th:text="${#fields.errors('phone').get(0)}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" th:field="*{email}" id="email">
+                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger small"
+                             th:text="${#fields.errors('email').get(0)}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" th:field="*{address}" id="address">
+                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger small"
+                             th:text="${#fields.errors('address').get(0)}"></div>
+                    </div>
+
+
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

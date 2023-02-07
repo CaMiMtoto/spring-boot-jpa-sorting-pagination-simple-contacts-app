@@ -1,5 +1,15 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.0-alpha1"
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.3.0-alpha1",
+    "bootstrap-icons": "^1.10.3"
+  },
+  "scripts": {
+    "watch": "sass --watch scss/app.scss  src/main/resources/static/assets/css/app.css",
+    "dev": "sass scss/app.scss  src/main/resources/static/assets/css/app.css",
+    "prod": "sass  scss/app.scss src/main/resources/static/assets/css/app.css --style compressed"
+  },
+  "devDependencies": {
+    "sass": "^1.58.0"
   }
 }

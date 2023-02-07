@@ -1,10 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contacts</title>
+    <link rel="stylesheet" th:href="@{'assets/css/app.css'}">
 </head>
 <body>
-$END$
+<div class="container my-5">
+    <div class="card card-body my-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4>
+                    Contacts
+                </h4>
+                <a th:href="@{'/contacts/create'}" class="btn btn-primary">
+                    Add Contact
+                </a>
+            </div>
+
+            <form action="">
+                <label>
+                    Search:
+                    <input type="search" class="form-control" name="search" placeholder="Search ... ">
+                </label>
+            </form>
+
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    <a class="text-decoration-none fw-bolder text-dark"
+                       th:href="@{'/contacts?&page'+${contacts.number}+'&size='+${contacts.size}+'&dir='+${currentDir=='asc'?'desc':'asc'}+'&sort=id'}">
+                        ID
+                        <span th:if="${currentSort=='id'}">
+                                <i class="bi bi-sort-up" th:if="${currentDir=='desc'}"></i>
+                                <i class="bi bi-sort-down" th:if="${currentDir=='asc'}"></i>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="text-decoration-none fw-bolder text-dark"
+                       th:href="@{'/contacts?&page'+${contacts.number}+'&size='+${contacts.size}+'&dir='+${currentDir=='asc'?'desc':'asc'}+'&sort=name'}">
+                        Name
+                        <span th:if="${currentSort=='name'}">
+                                <i class="bi bi-sort-up" th:if="${currentDir=='desc'}"></i>
+                                <i class="bi bi-sort-down" th:if="${currentDir=='asc'}"></i>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="text-decoration-none fw-bolder text-dark"
+                       th:href="@{'/contacts?&page'+${contacts.number}+'&size='+${contacts.size}+'&dir='+${currentDir=='asc'?'desc':'asc'}+'&sort=phoneNumber'}">
+                        Phone Number
+                        <span th:if="${currentSort=='phoneNumber'}">
+                                <i class="bi bi-sort-up" th:if="${currentDir=='desc'}"></i>
+                                <i class="bi bi-sort-down" th:if="${currentDir=='asc'}"></i>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="text-decoration-none fw-bolder text-dark"
+                       th:href="@{'/contacts?&page'+${contacts.number}+'&size='+${contacts.size}+'&dir='+${currentDir=='asc'?'desc':'asc'}+'&sort=email'}">
+                        Email
+                        <span th:if="${currentSort=='email'}">
+                                <i class="bi bi-sort-up" th:if="${currentDir=='desc'}"></i>
+                                <i class="bi bi-sort-down" th:if="${currentDir=='asc'}"></i>
+                        </span>
+                    </a>
+                </th>
+                <td></td>
+
+            </tr>
+            <tr th:each="contact : ${contacts}">
+                <td th:text="${contact.id}"></td>
+                <td th:text="${contact.name}"></td>
+                <td th:text="${contact.phoneNumber}"></td>
+                <td th:text="${contact.email}"></td>
+                <td>
+                    <a th:href="@{'/contacts/edit/'+${contact.id}}" class="btn  btn-sml btn-link">
+                        Edit
+                    </a>
+                    <a th:href="@{'/contacts/delete/'+${contact.id}}" class="btn btn-sm text-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div>
+
+            <p class="mb-0">
+                Showing <span th:text="${contacts.number * contacts.size + 1 }"></span>
+                to <span th:text="${ (contacts.number + 1) * contacts.size > contacts.totalElements ?
+                contacts.totalElements : (contacts.number + 1) * contacts.size }"></span>
+                of <span th:text="${ contacts.totalElements }"></span> entries
+            </p>
+        </div>
+        <div class="pagination">
+            <ul class="pagination">
+                <li class="page-item" th:if="${!contacts.hasPrevious()}">
+                    <span aria-hidden="true" class="page-link">&laquo;</span>
+                </li>
+                <li th:if="${contacts.hasPrevious()}" class="page-item">
+                    <a class="page-link"
+                       th:href="@{/contacts(page=${contacts.number - 1}, size=${contacts.size})}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:class="${page == contacts.number ? 'active' : ''}" class="page-item"
+                    th:each="page : ${#numbers.sequence(0, contacts.totalPages - 1)}">
+                    <a class="page-link" th:href="@{/contacts(page=${page}, size=${contacts.size})}"
+                       th:text="${page + 1}"
+                    ></a>
+                </li>
+                <li class="page-item" th:if="${contacts.hasNext()}">
+                    <a class="page-link"
+                       th:href="@{/contacts(page=${contacts.number + 1}, size=${contacts.size})}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:if="${!contacts.hasNext()}">
+                    <span aria-hidden="true" class="page-link">&raquo;</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>
